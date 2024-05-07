@@ -1,0 +1,28 @@
+digraph base {
+    labelloc="t";
+    label="ab*c+d?[efg] (DFA)";
+
+    # Default settings
+    graph [dpi=300]; 
+    rankdir=LR;
+    fontname="Helvetica";
+    edge [arrowhead=normal, arrowtail=dot];
+    node [shape=circle, label=""];
+
+    # Vertices
+    a [label="Beg"];
+    b [label="End"];
+
+    # Edges
+    a -> 1 [label="a"];
+    1 -> 1 [label="b"];
+    1 -> 2 [label="c"];
+    2 -> 2 [label="c"];
+    2 -> 3 [label="d"];
+    3 -> b [label="e"];
+    3 -> b [label="f"];
+    3 -> b [label="g"];
+    2 -> b [label="e"];
+    2 -> b [label="f"];
+    2 -> b [label="g"];
+}

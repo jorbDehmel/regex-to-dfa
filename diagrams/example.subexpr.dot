@@ -1,0 +1,38 @@
+digraph base {
+    labelloc="t";
+    label="{'a', 'b*', 'c+', 'd?', '[efg]'} (Epsilon-NFA Forest)";
+
+    # Default settings
+    graph [dpi=300]; 
+    rankdir=LR;
+    fontname="Helvetica";
+    edge [arrowhead=normal, arrowtail=dot];
+    node [shape=circle, label=""];
+
+    a2 [label="_"];
+    b2 [label="_"];
+    c3 [label="_"];
+    d2 [label="_"];
+    e2 [label="_"];
+
+    # 'a'
+    a1 -> a2 [label="a"];
+
+    # 'b*'
+    b1 -> b1 [label="b"];
+    b1 -> b2 [label=<&epsilon;>];
+
+    # 'c+'
+    c1 -> c2 [label="c"];
+    c2 -> c2 [label="c"];
+    c2 -> c3 [label=<&epsilon;>];
+
+    # 'd?'
+    d1 -> d2 [label="d"];
+    d1 -> d2 [label=<&epsilon;>];
+
+    # '[efg]'
+    e1 -> e2 [label="e"];
+    e1 -> e2 [label="f"];
+    e1 -> e2 [label="g"];
+}

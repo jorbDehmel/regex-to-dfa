@@ -1,0 +1,20 @@
+digraph base {
+    labelloc="t";
+    label="[TUV]";
+
+    # Default settings
+    graph [dpi=300]; 
+    rankdir=LR;
+    fontname="Helvetica";
+    edge [arrowhead=normal, arrowtail=dot];
+    node [shape=circle];
+
+    # Vertices
+    a [label="P"];
+    b [label="_"];
+
+    # Edges
+    a -> b [label="T"];
+    a -> b [label="U"];
+    a -> b [label="V"];
+}

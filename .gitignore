@@ -1,0 +1,7 @@
+*.o
+*.out
+*.aux
+*.pdf
+foo.*
+legacy/
+slides.*

@@ -1,0 +1,29 @@
+digraph base {
+    labelloc="t";
+    label="ab*c+d?[efg] (Epsilon-NFA)";
+
+    # Default settings
+    graph [dpi=300]; 
+    rankdir=LR;
+    fontname="Helvetica";
+    edge [arrowhead=normal, arrowtail=dot];
+    node [shape=circle, label=""];
+
+    # Vertices
+    a [label="Beg"];
+    b [label="End"];
+
+    # Edges
+    a -> 1 [label="a"];
+    1 -> 1 [label="b"];
+    1 -> 2 [label=<&epsilon;>];
+    2 -> 3 [label="c"];
+    3 -> 3 [label="c"];
+    3 -> 4 [label=<&epsilon;>];
+    4 -> 5 [label="d"];
+    4 -> 5 [label=<&epsilon;>];
+    5 -> 6 [label="e"];
+    5 -> 6 [label="f"];
+    5 -> 6 [label="g"];
+    6 -> b [label=<&epsilon;>];
+}

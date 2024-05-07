@@ -1,0 +1,19 @@
+digraph base {
+    labelloc="t";
+    label="T?";
+
+    # Default settings
+    graph [dpi=300]; 
+    rankdir=LR;
+    fontname="Helvetica";
+    edge [arrowhead=normal, arrowtail=dot];
+    node [shape=circle];
+
+    # Vertices
+    a [label="P"];
+    b [label="_"];
+
+    # Edges
+    a -> b [label="T"];
+    a -> b [label=<&epsilon;>];
+}
