@@ -18,7 +18,6 @@ $>name          - Pipe memory onto variable
 #pragma once
 
 #include <cassert>
-#include <cstddef>
 #include <list>
 #include <map>
 #include <queue>
@@ -318,8 +317,35 @@ template <typename T> void close_node(Node<T> *_cur)
         {
             for (const auto &edge : node->next)
             {
-                assert(!_cur->next.contains(edge.first));
-                _cur->next[edge.first] = edge.second;
+                if (_cur->next.contains(edge.first))
+                {
+                    // Prevents infinite loop
+                    if (_cur->next[edge.first] == _cur &&
+                        edge.second == node)
+                    {
+                        continue;
+                    }
+
+                    // Recursive case
+                    // Add epsilon linkage between the two
+                    // candidates, then recurse.
+
+                    // Add linkage
+                    Node<T> *cursor = _cur->next[edge.first];
+                    while (cursor->next.contains(T::epsilon()))
+                    {
+                        cursor = cursor->next[T::epsilon()];
+                    }
+                    cursor->next[T::epsilon()] = edge.second;
+
+                    // Recurse
+                    close_node(_cur->next[edge.first]);
+                }
+                else
+                {
+                    // Normal case
+                    _cur->next[edge.first] = edge.second;
+                }
             }
         }
     }

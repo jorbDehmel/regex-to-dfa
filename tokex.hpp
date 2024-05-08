@@ -363,47 +363,34 @@ void Tokex<T>::graphviz(const std::string &_filepath,
     // Pass 1: Name all nodes
     for (Node<T> *node : allNodes)
     {
-        if (node == beginning)
-        {
-            named_nodes[node] = "Beg";
-        }
-        else if (node == nullptr)
+        if (node == nullptr)
         {
             named_nodes[node] = "Null";
-        }
-        else
-        {
-            named_nodes[node] =
-                std::to_string(named_nodes.size());
-        }
-
-        if (node->type == end)
-        {
-            if (named_nodes[node] == "Beg")
-            {
-                named_nodes[node] = "BegEnd";
-            }
-            else
-            {
-                named_nodes[node] = "End";
-            }
-        }
-
-        if (node == beginning ||
-            (node != nullptr && node->type != normal))
-        {
-            file << '\t' << named_nodes[node] << " [label=\""
-                 << named_nodes[node] << "\"];\n";
-        }
-        else if (node == nullptr)
-        {
             file << '\t' << named_nodes[node]
                  << " [label=<&#9658;>];\n";
         }
         else
         {
-            file << '\t' << named_nodes[node]
-                 << " [label=\"\"];\n";
+            named_nodes[node] =
+                "q" + std::to_string(named_nodes.size());
+
+            if (node == beginning)
+            {
+                file << '\t' << named_nodes[node]
+                     << " [label=\""
+                     << (node->type == end ? "BegEnd" : "Beg")
+                     << "\"];\n";
+            }
+            else if (node->type == end)
+            {
+                file << "\t" << named_nodes[node]
+                     << " [label=\"End\"];\n";
+            }
+            else
+            {
+                file << '\t' << named_nodes[node]
+                     << " [label=\"\"];\n";
+            }
         }
     }
 
@@ -443,16 +430,13 @@ template <typename T> void Tokex<T>::purge()
     // Mark reachable nodes
     auto l = get_all_nodes();
     std::set<Node<T> *> reachable(l.begin(), l.end());
+    auto copy = allNodes;
 
-    // Erase any nodes which are not reachable
-    for (auto it = allNodes.begin(); it != allNodes.end(); ++it)
+    for (const auto &item : copy)
     {
-        if (!reachable.contains(*it))
+        if (!reachable.contains(item))
         {
-            Node<T> *copy = *it;
-            it = allNodes.erase(it);
-            --it;
-            delete copy;
+            allNodes.erase(item);
         }
     }
 
@@ -738,6 +722,6 @@ void Tokex<T>::run(const T &input, const bool &allow_epsilons)
     }
     else
     {
-        current = beginning;
+        current = nullptr;
     }
 }

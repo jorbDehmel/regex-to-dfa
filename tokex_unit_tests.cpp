@@ -354,7 +354,7 @@ int main()
     // Test variable control symbols
     // test_variables();
 
-    std::cout << "All unit tests passed without error.\n";
+    std::cout << "All Tokex unit tests passed without error.\n";
 
     return 0;
 }

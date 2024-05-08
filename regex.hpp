@@ -10,12 +10,20 @@ jdehmel@outlook.com
 #pragma once
 
 #ifdef SAVEFIG
+
+#ifndef FORCE_TOKEX_SAVEFIG
 #undef SAVEFIG
+#endif
+
 #include "tokex.hpp"
 #include <cstdint>
+
 #define SAVEFIG
+
 #else
+
 #include "tokex.hpp"
+
 #endif
 
 class TokexChar
@@ -128,9 +136,20 @@ static RegEx compile_regex(const char *const _pattern)
     RegEx out(v_pattern);
 
 #ifdef SAVEFIG
+
     static uint64_t id = 0;
     out.graphviz(std::to_string(id) + ".dot", _pattern);
+    system(("dot -Tpng " + std::to_string(id) + ".dot -o " +
+            std::to_string(id) + ".png")
+               .c_str());
+
+#ifdef SAVEFIGPATH
+    system(("mv " + std::to_string(id) + ".* " SAVEFIGPATH)
+               .c_str());
+#endif
+
     ++id;
+
 #endif
 
     return out;
