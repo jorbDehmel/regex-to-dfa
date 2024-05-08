@@ -1,0 +1,24 @@
+name: GitHub Actions CI/CD
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: |
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install -y clang
+        make
+    - name: Run tests
+      run: |
+        make run
