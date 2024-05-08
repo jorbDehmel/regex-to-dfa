@@ -1,0 +1,28 @@
+
+@startuml classes
+
+class "TokEx<T>" as TokEx {}
+class "TokEx<Token>" as TokExT {}
+interface Expresssionable {}
+class Token {}
+class char {}
+class RegExChar {}
+class "RegEx = TokEx<RegExChar>" as RegEx {}
+class Lexer {}
+
+() "Input data" as data
+
+class Token extends Expresssionable {}
+class TokExT extends TokEx {}
+class RegEx extends TokEx {}
+class RegExChar extends char {}
+class RegExChar extends Expresssionable {}
+
+data -d-> Lexer
+data -d- char : Broken directly into >
+Lexer -d- Token : Parses >
+TokEx -- Expresssionable : Generic T must be >
+TokExT -- Token : Generic T is replaced by >
+RegEx -- RegExChar : Generic T is replaced by >
+
+@enduml

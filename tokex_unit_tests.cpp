@@ -9,8 +9,8 @@ Jordan Dehmel, 2024
 jdehmel@outlook.com
 */
 
-#define SAVEFIG
-#define SAVEFIGPATH "./test_dots/"
+// #define SAVEFIG
+// #define SAVEFIGPATH "./test_dots/"
 
 #include "lexer.hpp"
 #include "tokex.hpp"
