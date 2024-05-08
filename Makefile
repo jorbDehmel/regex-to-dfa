@@ -1,13 +1,15 @@
 CC := clang++ -std=c++20
 FLAGS := -pedantic -Wall -O3 -g
-HEADERS := lexer.hpp tokex.hpp expression.hpp regex.hpp
+HEADERS := lexer.hpp tokex.hpp expression.hpp regex.hpp \
+	regex_manager.hpp
 
 .PHONY:	all
 all:	Makefile format tests.out regex_main.out
 
 .PHONY:	run
-run:	tests.out
-	./tests.out ; $(MAKE) -C test_dots
+run:	tests.out regex_main.out
+	./tests.out
+	./regex_main.out
 
 .PHONY:	format
 format:

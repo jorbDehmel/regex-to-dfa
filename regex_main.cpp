@@ -4,10 +4,11 @@ Jordan Dehmel, 2024
 jdehmel@outlook.com
 */
 
-#define SAVEFIGPATH "regex_dots/"
-#define SAVEFIG
+// #define SAVEFIGPATH "regex_dots/"
+// #define SAVEFIG
 
 #include "regex.hpp"
+#include "regex_manager.hpp"
 #include <chrono>
 #include <initializer_list>
 #include <iostream>
@@ -17,11 +18,7 @@ namespace clk = std::chrono;
 ////////////////////////////////////////////////////////////////
 // Regex Macros
 
-#define D "(0|1|2|3|4|5|6|7|8|9)"
-#define W                                                      \
-    "(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|"  \
-    "B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)"
-#define S "( |\t|\n)"
+static RegexManager re_manager;
 
 #define H "(a|b|c|d|e|f|A|B|C|D|E|F|0|1|2|3|4|5|6|7|8|9)"
 #define O "(0|1|2|3|4|5|6|7)"
@@ -29,9 +26,9 @@ namespace clk = std::chrono;
 #define HEX_RE "0(x|X)(" H "+')*" H "+"
 #define OCTAL_RE "(0|0(" O "+')*" O "+)"
 #define BINARY_RE "0(b|B)((0|1)+')*(0|1)+"
-#define DECIMAL_RE "-?(1|2|3|4|5|6|7|8|9)(" D "+')*" D "+"
-#define INT_RE                                                 \
-    "(" HEX_RE "|" DECIMAL_RE "|" OCTAL_RE "|" BINARY_RE ")"
+#define DECIMAL_RE "-?(1|2|3|4|5|6|7|8|9)(\\d+')*\\d+"
+
+#define INT_RE "(#{hex}|#{dec}|#{oct}|#{bin})"
 
 ////////////////////////////////////////////////////////////////
 // Helper function(s)
@@ -52,7 +49,7 @@ void test_regex(
 
     // Compile
     start = clk::high_resolution_clock::now();
-    RegEx pattern = compile_regex(_pattern);
+    RegEx pattern = re_manager.create_regex(_pattern);
     end = clk::high_resolution_clock::now();
     compilation_us =
         clk::duration_cast<clk::microseconds>(end - start)
@@ -122,17 +119,22 @@ void test_regex(
 
 int main()
 {
+    re_manager.register_substitution("#{bin}", BINARY_RE);
+    re_manager.register_substitution("#{oct}", OCTAL_RE);
+    re_manager.register_substitution("#{dec}", DECIMAL_RE);
+    re_manager.register_substitution("#{hex}", HEX_RE);
+
     test_regex("a*b+c?d", {"bbd", "aaaabcd"}, {"aaacd", "abc"});
 
-    test_regex(D "+", {"123", "09876"}, {"", "123abc"});
+    test_regex("\\d+", {"123", "09876"}, {"", "123abc"});
 
-    test_regex(W "+", {"foobar", "BobErt"}, {"greg123"});
+    test_regex("\\w+", {"foobar", "BobErt"}, {"greg123"});
 
-    test_regex(W "+" S W "+", {"foo bbbar", "BobErt ROCKS"},
+    test_regex("\\w+\\s\\w+", {"foo bbbar", "BobErt ROCKS"},
                {"foobar", "foo ", " foo", "greg 123"});
 
     // Email example
-    test_regex("(" W "|" D ")+@" W "+\\." W "+",
+    test_regex("(\\w|\\d)+@\\w+\\.\\w+",
                {"jdehmel@outlook.com", "a@b.c"},
                {"jdehmel@foobar@outlook.com", "1@2.c.d",
                 "jedehmel@ outlook. com"});
