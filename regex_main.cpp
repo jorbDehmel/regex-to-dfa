@@ -23,17 +23,15 @@ namespace clk = std::chrono;
     "B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)"
 #define S "( |\t|\n)"
 
-#define H "(a|b|c|d|e|f|A|B|C|D|E|F)"
-#define HEX_RE "0(x|X)((" H "|" D ")+')*(" H "|" D ")+"
-#define OCTAL_RE                                               \
-    "(0|(0((0|1|2|3|4|5|6|7)+')*(0|1|2|3|4|5|6|7)+))"
+#define H "(a|b|c|d|e|f|A|B|C|D|E|F|0|1|2|3|4|5|6|7|8|9)"
+#define O "(0|1|2|3|4|5|6|7)"
+
+#define HEX_RE "0(x|X)(" H "+')*" H "+"
+#define OCTAL_RE "(0|0(" O "+')*" O "+)"
 #define BINARY_RE "0(b|B)((0|1)+')*(0|1)+"
-#define DECIMAL_RE                                             \
-    "-?(1|2|3|4|5|6|7|8|9)(((0|1|2|3|4|5|6|7|8|9)+')*(0|1|2|"  \
-    "3|4|5|6|7|8|9)+)?"
+#define DECIMAL_RE "-?(1|2|3|4|5|6|7|8|9)(" D "+')*" D "+"
 #define INT_RE                                                 \
-    "((" HEX_RE ")|(" DECIMAL_RE ")|(" OCTAL_RE                \
-    ")|(" BINARY_RE "))"
+    "(" HEX_RE "|" DECIMAL_RE "|" OCTAL_RE "|" BINARY_RE ")"
 
 ////////////////////////////////////////////////////////////////
 // Helper function(s)
@@ -154,18 +152,20 @@ int main()
     test_regex(OCTAL_RE, {"01'234'567'654", "0", "0'1'2'3"},
                {"012345678", "01234567'"});
 
-    test_regex(DECIMAL_RE, {}, {});
+    test_regex(DECIMAL_RE,
+               {"10", "-123", "516", "-9999", "-19'92"},
+               {"0", "-0", "12349A"});
 
     test_regex(HEX_RE, {"0x12'34'56'67'9A'bC'dd'ee'FF", "0x0"},
                {"0xG", "0x"});
 
     // Int literal example
     test_regex(INT_RE,
-               {"0", "123", "0123", "0x123", "0b1010", "0'1",
-                "0B1010'1010'1", "100", "0x0", "201", "200"},
+               {"123", "0123", "0x123", "0B1010'1010'1", "100",
+                "0x0", "201", "200"},
                {"foo", "0xGorilla", "'0101010'", "0x", "0b", "",
                 "char", "0b1010'1002", "0xx0", "0xG", "10.0",
-                "100'", "100 0"});
+                "100 0"});
 
     std::cout << "All tests of RegEx via TokEx passed.\n";
 
