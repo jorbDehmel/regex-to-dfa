@@ -25,7 +25,7 @@ through the following steps:
 
 This software has dependencies on the following piece(s) of
 software:
-- `clang++` 20 or later
+- `g++` 20 or later
 - `clang-format`
 - `graphviz` / `dot`
 - `plantuml`
