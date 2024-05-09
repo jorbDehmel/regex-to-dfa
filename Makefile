@@ -1,5 +1,5 @@
-CC := clang++ -std=c++20
-FLAGS := -pedantic -Wall -O3 -g
+CC := g++ -std=c++20
+FLAGS := -O3 -g
 HEADERS := lexer.hpp tokex.hpp expression.hpp regex.hpp \
 	regex_manager.hpp
 

@@ -18,6 +18,7 @@ Jordan Dehmel, 2024.
 #include "expression.hpp"
 #include "lexer.hpp"
 #include <cassert>
+#include <cstddef>
 #include <fstream>
 #include <map>
 #include <set>
@@ -594,7 +595,7 @@ Expression<T> Tokex<T>::compile(const std::vector<T> &pattern,
             // Compile breakpoints into expressions
             std::vector<Expression<T>> subexpressions;
             Expression<T> final_expr;
-            for (int j = 0; j + 1 < delims.size(); ++j)
+            for (size_t j = 0; j + 1 < delims.size(); ++j)
             {
                 subexpressions.push_back(compile(
                     pattern, delims[j] + 1, delims[j + 1]));
@@ -604,7 +605,8 @@ Expression<T> Tokex<T>::compile(const std::vector<T> &pattern,
             if (subexpressions.size() > 1)
             {
                 final_expr = subexpressions[0];
-                for (int j = 1; j < subexpressions.size(); ++j)
+                for (size_t j = 1; j < subexpressions.size();
+                     ++j)
                 {
                     final_expr.add_other_as_suit(
                         subexpressions[j]);
@@ -690,7 +692,7 @@ Expression<T> Tokex<T>::compile(const std::vector<T> &pattern,
 
     // Assemble subexpressions
     Expression<T> expression = expressions.front();
-    for (int i = 1; i < expressions.size(); ++i)
+    for (size_t i = 1; i < expressions.size(); ++i)
     {
         expression.knit_other_onto_end(expressions[i]);
     }
