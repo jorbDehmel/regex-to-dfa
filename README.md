@@ -1,4 +1,6 @@
 
+![GitHub Actions CI/CD](https://github.com/jorbDehmel/languages-final-project/actions/workflows/ci-test.yml/badge.svg)
+
 # Final Project for Programming Languages: RegEx -> DFA compiler
 
 Jordan Dehmel, 2024
