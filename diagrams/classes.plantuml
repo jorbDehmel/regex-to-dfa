@@ -7,6 +7,7 @@ interface Expresssionable {}
 class Token {}
 class char {}
 class RegExChar {}
+class RegExManager {}
 class "RegEx = TokEx<RegExChar>" as RegEx {}
 class Lexer {}
 
@@ -24,5 +25,6 @@ Lexer -d- Token : Parses >
 TokEx -- Expresssionable : Generic T must be >
 TokExT -- Token : Generic T is replaced by >
 RegEx -- RegExChar : Generic T is replaced by >
+RegExManager -d- RegEx : Produces, allows composition within >
 
 @enduml
