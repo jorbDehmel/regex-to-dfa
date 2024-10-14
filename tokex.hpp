@@ -85,7 +85,13 @@ template <typename T = Token> class Tokex
     bool has_epsilons() const;
 
     // Returns all REACHABLE nodes in the graph.
-    std::list<Node<T> *> get_all_nodes();
+    std::list<Node<T> *> get_all_nodes() const;
+
+    // Returns the entry node
+    inline Node<T> *get_entry_node() const
+    {
+        return beginning;
+    }
 
     // Print the graph.
     void print();
@@ -94,7 +100,7 @@ template <typename T = Token> class Tokex
     // graph in GraphViz. This is similar (but not exactly the
     // same as) print.
     void graphviz(const std::string &_filepath,
-                  const std::string &_title = "");
+                  const std::string &_title = "") const;
 
     // Erases all unreachable nodes.
     void purge();
@@ -264,7 +270,7 @@ Expression<T> Tokex<T>::duplicate_expression(
 }
 
 template <typename T>
-std::list<Node<T> *> Tokex<T>::get_all_nodes()
+std::list<Node<T> *> Tokex<T>::get_all_nodes() const
 {
     std::list<Node<T> *> out_l;
     std::set<Node<T> *> out;
@@ -341,7 +347,7 @@ template <typename T> void Tokex<T>::print()
 // same as) print.
 template <class T>
 void Tokex<T>::graphviz(const std::string &_filepath,
-                        const std::string &_title)
+                        const std::string &_title) const
 {
     // Open file
     std::ofstream file(_filepath);
