@@ -1,7 +1,7 @@
 
 ![GitHub Actions CI/CD](https://github.com/jorbDehmel/languages-final-project/actions/workflows/ci-test.yml/badge.svg)
 
-# Final Project for Programming Languages: RegEx -> DFA compiler
+# Final Project for Programming Languages: RegEx to DFA compiler
 
 Jordan Dehmel, 2024
 
@@ -40,24 +40,6 @@ make run
 This can be used in `C++` programs by including `regex.hpp` or
 `regex_manager.hpp`.
 
-## Diagrams
-
-Class diagram
-![](diagrams/classes.png)
-
-## Translation Diagrams
-
-![](diagrams/base.png)
-![](diagrams/question.png)
-![](diagrams/plus.png)
-![](diagrams/star.png)
-![](diagrams/suit.png)
-
-## Examples
-
-![](diagrams/email.png)
-![](regex_dots/12.png)
-
 ## License
 
-This software is licensed under the GPLv3.
+This software is licensed under the MIT license.
